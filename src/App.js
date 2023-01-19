@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {Exception} from 'sass';
 import './App.scss';
 import Species from './Species';
 
@@ -42,11 +41,10 @@ const getFilm = async id => {
 
   try {
     const response = await fetch(`${API_URL}/${id}`);
-
     return await response.json();
-  } catch (error) {
-    console.log('There was an error fetching the film.', error);
-    throw new Exception(error);
+  } catch {
+    console.log('There was an error fetching the film.');
+    throw new Error('There was an error fetching the film.');
   }
 };
 
@@ -76,7 +74,7 @@ const getSpeciesFromFilm = async filmId => {
       "There were one or more than one species that couldn't be fetched.",
       error
     );
-    throw new Exception(error);
+    throw new Error(error);
   }
 };
 
@@ -85,7 +83,7 @@ const getSpeciesFromFilm = async filmId => {
  * Additionally, the second param represents how many decimals will contain the height in inches.
  * Returns "n/a" as result if the first param can not be converted to a number.
  */
-const convertHeight = (heightInCm, decimals = 0) => {
+export const convertHeight = (heightInCm, decimals = 0) => {
   const value = Number(heightInCm);
   if (isNaN(value)) {
     return 'n/a';
